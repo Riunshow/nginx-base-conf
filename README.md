@@ -115,25 +115,25 @@ botai:$apr1$8S/eoJKQ$PmnYn5bqllMC/SjQbcUe3.
 
 <img src="./img/auth.png">
 
-### 待见静态资源服务器
+### 搭建静态资源服务器
 
 ```bash
     sendfile on;
     
     location ~ .*\.(jpg|gif|png)$ {
-        #gzip on;
-        #gzip_http_version 1.1;
-        #gzip_comp_level 2;
-        #gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+        gzip on;
+        gzip_http_version 1.1;
+        gzip_comp_level 2;
+        gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
 
         root /opt/app/code/images;
     }
 
     location ~ .*\.(txt|xml)$ {
-        #gzip on;
-        #gzip_http_version 1.1;
-        #gzip_comp_level 1;
-        #gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+        gzip on;
+        gzip_http_version 1.1;
+        gzip_comp_level 1;
+        gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
 
         root /opt/app/code/doc;
     }
@@ -145,12 +145,27 @@ botai:$apr1$8S/eoJKQ$PmnYn5bqllMC/SjQbcUe3.
         root /opt/app/code;
     }
 
+```
+
+### 设置缓存
+```bash
+    location ~ .*\.(htm|html)$ {
+        expires 24h;
+        root /opt/app/code;
+    }
+
 
 ```
 
+### 设置跨域
+```bash
+    location /{
+        add_header Access-Control-Allow-Origin http://rainbower.me;
+        add_header Access-Control-Allow-Methods GET,POST,PUT,DELETE,OPTIONS;
+        root /opt/app/code;
+    }
 
-
-
+```
 
 
 ### 配置 https
@@ -164,7 +179,7 @@ botai:$apr1$8S/eoJKQ$PmnYn5bqllMC/SjQbcUe3.
         rewrite ^(.*) https://rainbower.me permanent;
 
     }
-    
+
     server {
         listen 443;
         server_name rainbower.me; #填写绑定证书的域名
