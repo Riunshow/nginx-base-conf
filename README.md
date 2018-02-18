@@ -167,6 +167,10 @@ botai:$apr1$8S/eoJKQ$PmnYn5bqllMC/SjQbcUe3.
 
 ```
 
+### 防盗链
+```bash
+
+```
 
 ### 配置 https
 
